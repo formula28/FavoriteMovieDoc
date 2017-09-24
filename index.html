@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Favorite Movies</title>
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="./style/index_style.css">
+        <script type="text/javascript" src="./script/util_dom.js"></script>
+        <script type="text/javascript" src="./script/util_str.js"></script>
+        <script type="text/javascript" src="./script/append_contents.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                console.log("window.onload enter");
+                appendContents(document.querySelector("#contents"));
+                console.log("window.onload leave");
+            }
+        </script>
+    </head>
+    <body>
+        <section id="contents">
+            <!-- movies.jsonサンプル.
+            {
+                "id":"mv",
+                "series":"",
+                "title":"",
+                "description":"",
+                "url":"",
+                "thumb":"",
+                "embedded_code_summary":"<iframe width=\"312\" height=\"176\" src=\"http://ext.nicovideo.jp/thumb/{id}\" scrolling=\"no\" style=\"border:solid 1px #ccc;\" frameborder=\"0\"><a href=\"http://www.nicovideo.jp/watch/{id}\">進撃のちゃんみお</a></iframe>",
+                "embedded_code_preview":"<script type=\"application/javascript\" src=\"http://embed.nicovideo.jp/watch/{id}/script?w=640&h=360\"></script><noscript><a href=\"http://www.nicovideo.jp/watch/{id}\">進撃のちゃんみお</a></noscript>",
+                "tags":[]
+            },
+             -->
+            <!-- 追加後htmlサンプル
+            <div class="content" id="0">
+                <div class="title">
+                    <a href="http://www.nicovideo.jp/watch/sm19065505">
+                        【MMD】Kiss me 愛してる　紫様 & 藍様【東方】
+                    </a>
+                    <div class="btn_area">
+                        <div class="open_preview_btn normal"
+                            onmouseover="toggleMouseOverState(this);"
+                            onmouseout ="toggleMouseOverState(this);"
+                            onclick="appendPreviewLayer(document.body, \'{id}\')"
+                        >
+                            <span>preview</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="b">
+                    <div class="thumb">
+                        <a href="http://www.nicovideo.jp/watch/sm19065505">
+                            <img src="http://tn.smilevideo.jp/smile?i=19065505" />
+                        </a>
+                    </div>
+                    <div class="br">
+                        <ul class="tags">
+                            <li class="tag normal"
+                                onmouseover="toggleMouseOverState(this);"
+                                onmouseout ="toggleMouseOverState(this);"
+                                ><a href="http://www.nicovideo.jp/tag/東方">東方</a></li>
+                            <li class="tag"><a href="javascript:void(0);">MikuMikuDance</a></li>
+                            <li class="tag"><a href="javascript:void(0);">紳士向け</a></li>
+                            <li class="tag"><a href="javascript:void(0);">八雲紫</a></li>
+                            <li class="tag"><a href="javascript:void(0);">八雲藍</a></li>
+                            <li class="tag"><a href="javascript:void(0);">Kiss_me_愛してる</a></li>
+                            <li class="tag"><a href="javascript:void(0);">東方水着ダンスリンク</a></li>
+                            <li class="tag"><a href="javascript:void(0);">東方MMD</a></li>
+                            <li class="tag"><a href="javascript:void(0);">水着</a></li>
+                        </ul>
+                        <div class="desc">
+                            まったく季節感の無いｎ番煎じな感じですが、リクエスト動画第二弾投下します。<br>
+                            藍様もふもふファンの方スイマセン。ダンスの関係で尻尾を縮小してもらいました。
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </section>
+        <!--
+        <div id="movie_preview_layer">
+            <script type="application/javascript" src="http://embed.nicovideo.jp/watch/sm19065505/script?w=640&amp;h=360"></script>
+            <noscript><a href="http://www.nicovideo.jp/watch/sm19065505">【MMD】Kiss me 愛してる　紫様 & 藍様【東方】</a></noscript>
+        </div>
+        -->
+    </body>
+</html>
