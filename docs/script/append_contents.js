@@ -64,49 +64,50 @@ function appendContentsInner(elem, data) {
 function appendContent(elem, data) {
     console.log("appendContent enter");
 
-    var html1 = '\
-    <div class="content" id="{id}">\
-        <div class="title">\
-            <a href="{url}">\
-                {title}\
-            </a>\
-            <div class="btn_area">\
-                <div class="open_preview_btn normal"\
-                    onmouseover="toggleMouseOverState(this);"\
-                    onmouseout ="toggleMouseOverState(this);"\
-                    onclick="appendPreviewLayer(document.body, \'{id}\')"\
-                >\
-                    <span>preview</span>\
-                </div>\
-            </div>\
-        </div>\
-        <div class="b">\
-            <div class="thumb">\
-                <a href="{url}">\
-                    <img src="{thumb}" />\
-                </a>\
-            </div><!-- 余白消しのコメント\
-         --><div class="br">\
-                <ul class="tags">'
+    var html1 = `
+    <div class="content" id="{id}">
+        <div class="title">
+            <a href="{url}">
+                {title}
+            </a>
+            <div class="btn_area">
+                <div class="open_preview_btn normal"
+                    onmouseover="toggleMouseOverState(this);"
+                    onmouseout ="toggleMouseOverState(this);"
+                    onclick="appendPreviewLayer(document.body, '{id}')"
+                >
+                    <span>preview</span>
+                </div>
+            </div>
+        </div>
+        <div class="b">
+            <div class="thumb">
+                <a href="{url}">
+                    <img src="{thumb}" />
+                </a>
+            </div><!-- 余白消しのコメント
+         --><div class="br">
+                <ul class="tags">`
     .format(data);
 
     var html2 = "";
     data["tags"].forEach(function(value){
-        html2 += '                    <li class="tag normal"\
-                                        onmouseover="toggleMouseOverState(this);"\
-                                        onmouseout ="toggleMouseOverState(this);"\
-                                        ><a href="http://www.nicovideo.jp/tag/{0}">{0}</a></li>'
-                                        .format(value);
+        html2 += `
+                    <li class="tag normal"
+                        onmouseover="toggleMouseOverState(this);"
+                        onmouseout ="toggleMouseOverState(this);"
+                        ><a href="http://www.nicovideo.jp/tag/{0}">{0}</a></li>`
+        .format(value);
     });
 
-    var html3 = '\
-                </ul><!-- 余白消しのコメント\
-             --><div class="desc">\
-                {description}\
-                </div>\
-            </div>\
-        </div>\
-    </div>'
+    var html3 = `
+                </ul><!-- 余白消しのコメント
+             --><div class="desc">
+                    {description}
+                </div>
+            </div>
+        </div>
+    </div>`
     .format(data);
     elem.insertAdjacentHTML("beforeend", html1+html2+html3);
 
@@ -131,27 +132,16 @@ function appendPreviewLayer(parent, content_id) {
         // レイヤー追加.
         mContentsData.some(function(value){
             if (value["id"] == content_id) {
-                /* ニコニコ動画の外部プレイヤー非同期埋め込み不具合回避. start */
-                /*
-                http://qiita.com/TakashiShibusawa/items/c7499f4b92ac97e4a20a
-                ↑を見て、不具合回避しようと思ったけど、うまくいかない。
-                どうも以前とはまた違う理由で外部プレイヤーの非同期埋め込みが出来ないっぽい？
-                */
-                // 元のメソッド一時待避.
-                var write = document.write;
-                // 新しい関数で上書き
-                document.write = function (arg) {
-                    parent.innerHTML = arg;
-                    // document.writeを戻す.
-                    document.write = write;
-                };
-                /* ニコニコ動画の外部プレイヤー非同期埋め込み不具合回避. end */
-                var html = '\
-                <div\
-                    id="movie_preview_layer"\
-                    >\
-                    {embedded_code_preview}\
-                </div>'.format(value);
+                var html = `
+                <div id="movie_preview_layer">
+                    <!-- ニコニコ動画外部プレイヤー. -->
+                    <iframe id="nicovideo_player"
+                            src="http://embed.nicovideo.jp/watch/{watch_id}"
+                            frameborder="0"
+                            allowfullscreen
+                            >
+                    </iframe>
+                </div>`.format(value);
                 parent.insertAdjacentHTML("beforeend", html);
                 return true;
             }
