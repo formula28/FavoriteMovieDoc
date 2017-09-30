@@ -85,21 +85,17 @@ function appendContent(elem, data) {
             <div class="thumb normal"
                 onmouseover="toggleMouseOverState(this);"
                 onmouseout ="toggleMouseOverState(this);"
-                onclick="appendPreviewLayer(document.body, '{id}')"
-                >
+                onclick="appendPreviewLayer(document.body, '{id}')">
                 <div class="dl_overlay"><!-- 余白消しのコメント
                  --><button
                         class="play_btn"
-                        style="display:inline-block;"
-                        data-reactid="41">
+                        style="display:inline-block;">
                         <svg
                             class="play_icon"
                             role="img"
-                            viewBox="0 0 100 100"
-                            data-reactid="42">
+                            viewBox="0 0 100 100">
                             <path
-                                d="M95.092 42.059a8.878 8.878 0 0 1 0 15.882L12.848 99.063A8.878 8.878 0 0 1 0 91.122V8.878A8.879 8.879 0 0 1 12.848.937l82.244 41.122z"
-                                data-reactid="43">
+                                d="M95.092 42.059a8.878 8.878 0 0 1 0 15.882L12.848 99.063A8.878 8.878 0 0 1 0 91.122V8.878A8.879 8.879 0 0 1 12.848.937l82.244 41.122z">
                             </path>
                         </svg>
                     </button>
@@ -165,18 +161,33 @@ function appendPreviewLayer(parent, id) {
                             allowfullscreen
                             >
                     </iframe>
+                    <button
+                        id="layer_colse_btn"
+                        class="normal"
+                        onmouseover="toggleMouseOverState(this);"
+                        onmouseout ="toggleMouseOverState(this);">
+                        <svg
+                            class="close_icon"
+                            role="img"
+                            viewBox="0 0 100 100">
+                            <path
+                                d="M50 32.762l31.55-31.55a4.139 4.139 0 0 1 5.851 0l11.387 11.387a4.137 4.137 0 0 1 0 5.851L67.238 50l31.55 31.55a4.139 4.139 0 0 1 0 5.851L87.401 98.788a4.137 4.137 0 0 1-5.851 0L50 67.238l-31.55 31.55a4.139 4.139 0 0 1-5.851 0L1.212 87.401a4.137 4.137 0 0 1 0-5.851L32.762 50 1.212 18.45a4.139 4.139 0 0 1 0-5.851L12.599 1.212a4.137 4.137 0 0 1 5.851 0L50 32.762z" data-reactid="116">
+                            </path>
+                        </svg>
+                    </button>
                 </div>`.format(value);
                 parent.insertAdjacentHTML("beforeend", html);
                 return true;
             }
         });
         var appendLayer = parent.querySelector("#movie_preview_layer");
-        appendLayer.addEventListener("click",
+        var layer_colse_btn = parent.querySelector("#layer_colse_btn");
+        layer_colse_btn.addEventListener("click",
             function(e){
                 // レイヤー上の何もオブジェクトが表示されていない部分をクリックしたらレイヤー削除.
                 if (e != null) {
                     console.log("onClick", e.target);
-                    if (e.target.id == "movie_preview_layer") {
+                    if (e.target.id == "layer_colse_btn") {
                         parent.removeChild(appendLayer);
                     }
                 }
