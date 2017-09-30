@@ -9,6 +9,8 @@ body
     display: inline-block;
     margin: 0 5px 5px 0;
     border: 2px solid rgba(250, 0, 0, 0.8);
+    width: 420px;
+    height: 220px;
 }
 
     /* タイトル start. */
@@ -18,6 +20,10 @@ body
         position: relative;
         top:0;
         left:0;
+        height: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .title a
     {
@@ -36,140 +42,141 @@ body
     }
     /* タイトル end. */
 
-    /* プレビューボタン start. */
-    .btn_area {
-        display: inline-block;
-        position: absolute;
-        right:0;
+    /* サムネイル start. */
+    .thumb {
+        position: relative;
     }
-    .open_preview_btn
+    .thumb[class*="normal"]
     {
         display: inline-block;
-        margin: 0;
-        padding: 0px;
-        width: 70px;
-        height: 20px;
-        text-decoration: none;
-        font-weight: bold;
-        text-align: center;
+        vertical-align: top;
+        cursor: auto;
     }
-    .open_preview_btn span
+    .thumb[class*="over"]
     {
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+    }
+
+    .thumb .dl_overlay {
+        position:absolute;
+        width:100%;
+        height:100%;
+        background-color:rgba(0,0,0,0.4);
+        text-align:center;
+        visibility:hidden;
+        color:rgba(255,255,255,0.4);
+    }
+    .thumb[class*="normal"] .dl_overlay {
+        visibility: hidden;
+    }
+    .thumb[class*="over"] .dl_overlay {
+        visibility: visible;
+    }
+    .thumb .dl_overlay:before {
+        content:"";
         display:inline-block;
-        padding: 2px;
-        font-size: 12px;
-        vertical-align: text-top;
-    }
-    .open_preview_btn[class*="normal"]
-    {
-        border: solid #CCC;
-        border-width:1px 3px 3px 1px;
-        border-radius: 8px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        background: -ms-linear-gradient(top,#FFF 0%,#FFF 3%,#E6E6E6 3%,#FFF);
-        background: -moz-linear-gradient(top,#FFF 0%,#FFF 3%,#E6E6E6 3%,#FFF);
-        background: -webkit-gradient(linear, left top, left bottom, from(#FFF), color-stop(0.03,#FFF), color-stop(0.03,#E6E6E6), to(#FFF));
-        color: #111;
-    }
-    .open_preview_btn[class*="over"]
-    {
-        border: solid #0099CC;
-        border-width:1px 3px 3px 1px;
-        border-radius: 8px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        background: -ms-linear-gradient(top,#B1D2E0 0%,#B1D2E0 3%,#0099CC 3%,#069);
-        background: -moz-linear-gradient(top,#B1D2E0 0%,#B1D2E0 3%,#0099CC 3%,#069);
-        background: -webkit-gradient(linear, left top, left bottom, from(#B1D2E0), color-stop(0.03,#B1D2E0), color-stop(0.03,#0099CC), to(#069));
-        color: #eee;
-    }
-    /* プレビューボタン end. */
-
-    /* アイテム下部 start. */
-    .b
-    {
-        white-space: nowrap;
+        width:0px;
+        height:100%;
+        vertical-align:middle;
     }
 
-        /* サムネイル start. */
-        .thumb
-        {
-        display: inline-block;
-        /*border:2px solid #555555;*/
-        vertical-align: top;
-        }
+    .play_btn {
+        padding-top: 12px;
+        border: none;
+        width: 52px;
+        height: 52px;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        background: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzMgNzYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjMuNjV2MzcuODlhNi4zNiA2LjM2IDAgMCAwIDYuMzkgNi4zMmg3LjUzbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMi02LjYxaDIyLjExbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMy02LjYxaDguMzZhNi4zNSA2LjM1IDAgMCAwIDYuMzktNi4zMlYyMy42NWE2LjM1IDYuMzUgMCAwIDAtNi4zOS02LjMySDQxLjk5TDU2LjA1IDMuNDQgNTIuNTYtLjAzIDM2LjIzIDE2LjExIDE5LjkyLjA2bC0zLjUgMy40NSAxNCAxMy44MmgtMjRBNi4zNiA2LjM2IDAgMCAwIDAgMjMuNjV6IiBzdHlsZT0iZmlsbDpyZ2JhKDAsMCwwLC44KTtzdHJva2U6cmdiYSg2Niw2Niw2NiwuOCk7Ii8+PC9zdmc+) no-repeat center;
+        transition: all .1s ease;
+        -webkit-transition: all .1s ease;
+        cursor: pointer;
+        outline: none;
+    }
+    .play_icon {
+        fill: rgba(255,255,255,.8);
+        width: 14px;
+    }
 
-        .thumb img
-        {
+    .thumb_image
+    {
         width: 130px;
+        height: 100px;
         vertical-align: bottom;
-        }
-        /* サムネイル end. */
+    }
+    /* サムネイル end. */
 
-        /* アイテム下右部 start. */
-        .br
-        {
+    /* 説明領域 start. */
+    .desc_area
+    {
         display: inline-block;
-        /*border:2px solid #555555;*/
         vertical-align: top;
-        white-space: normal;
-        word-wrap: break-word;
         width: calc(100% - 130px);/* 画像の幅分引く */
+        height: 100px;
+        white-space: normal;
+        overflow: hidden;
+    }
+        /* 説明 start. */
+        .desc
+        {
+            font-size: 9pt;
         }
+        /* 説明 end. */
+    /* 説明領域 end. */
 
-            /* タグ start. */
-            .tags
-            {
-                margin: 0;
-                padding: 0;
-                font-size: 0;
-            }
-            .tag
-            {
-                display:inline-block;
-                list-style: none;
-                font-size: 10pt;
-                font-weight:bold;
-                border:1px solid rgba(34,80,158,1.0);
-                border-radius:15px;
-                padding:0 2px;
-                margin:2px 2px;
-            }
-            .tag.normal
-            {
-                background: rgba(255,255,255,1.0);
-                color: rgba(34,80,158,1.0);
-            }
-            .tag.over
-            {
-                background: rgba(34,80,158,1.0);
-                color: rgba(255,255,255,1.0);
-            }
-            .tag.normal a
-            {
-                color: rgba(34,80,158,1.0);
-                text-decoration: none;
-            }
-            .tag.over a
-            {
-                color: rgba(255,255,255,1.0);
-                text-decoration: none;
-            }
-            .tag a::before
-            {
-                content: "○";
-            }
-            /* タグ end. */
-
-            /* 説明 start. */
-            .desc
-            {
-                font-size: 10pt;
-            }
-            /* 説明 end. */
-        /* アイテム下右部 end. */
-    /* アイテム下部 end. */
+    /* タグ領域 start. */
+    .tags_area
+    {
+        height: 90px;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+        /* タグ start. */
+        .tags
+        {
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+        }
+        .tag
+        {
+            display:inline-block;
+            list-style: none;
+            font-size: 9pt;
+            font-weight:bold;
+            border:1px solid rgba(34,80,158,1.0);
+            border-radius:15px;
+            padding:0 2px;
+            margin:2px 2px;
+        }
+        .tag.normal
+        {
+            background: rgba(255,255,255,1.0);
+            color: rgba(34,80,158,1.0);
+        }
+        .tag.over
+        {
+            background: rgba(34,80,158,1.0);
+            color: rgba(255,255,255,1.0);
+        }
+        .tag.normal a
+        {
+            color: rgba(34,80,158,1.0);
+            text-decoration: none;
+        }
+        .tag.over a
+        {
+            color: rgba(255,255,255,1.0);
+            text-decoration: none;
+        }
+        .tag a::before
+        {
+            content: "○";
+        }
+        /* タグ end. */
+    /* タグ領域 end. */
 /* コンテンツアイテム end. */
 
 /* プレビューレイヤー. */

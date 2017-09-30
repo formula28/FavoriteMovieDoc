@@ -1,5 +1,7 @@
 /** コンテンツデータ. */
 var mContentsData;
+/** 検索結果反映済コンテンツデータ. */
+var mExContentsData = [];
 
 /**
  * コンテンツDOM追加.
@@ -13,7 +15,6 @@ function appendContents(elem) {
         xhr.onload = function(e) {
             console.log("非同期通信によるコンテンツデータ取得成功.");
             console.log(this.response);
-            //var mContentsData = JSON.parse(this.response);
             mContentsData = this.response;
             appendContentsInner(elem, mContentsData);
         }
@@ -45,10 +46,19 @@ function appendContentsInner(elem, data) {
 
     if (Array.isArray(data)) {
         data.forEach(function(value) {
-            appendContent(elem, value);
+            get_video_info_json(value, function(extend_data){
+                console.log("appendContentsInner get_video_info_json callback enter");
+                mExContentsData.push(extend_data);
+                appendContent(elem, extend_data);
+                console.log("appendContentsInner get_video_info_json callback leave");
+            });
         })
     } else if (typeof data == "object") {
-        appendContent(elem, data);
+        get_video_info_json(data, function(extend_data){
+            console.log("appendContentsInner get_video_info_json callback enter");
+            appendContent(elem, extend_data);
+            console.log("appendContentsInner get_video_info_json callback leave");
+        });
     } else {
         elem.insertAdjacentHTML("beforeend", "no data.");
     }
@@ -64,47 +74,61 @@ function appendContentsInner(elem, data) {
 function appendContent(elem, data) {
     console.log("appendContent enter");
 
-    var html1 = `
-    <div class="content" id="{id}">
-        <div class="title">
+    var html1 = `<!-- 余白消しのコメント
+ --><div class="content" id="{id}">
+        <div class="title" title="{title}">
             <a href="{url}">
                 {title}
             </a>
-            <div class="btn_area">
-                <div class="open_preview_btn normal"
-                    onmouseover="toggleMouseOverState(this);"
-                    onmouseout ="toggleMouseOverState(this);"
-                    onclick="appendPreviewLayer(document.body, '{id}')"
-                >
-                    <span>preview</span>
-                </div>
-            </div>
         </div>
-        <div class="b">
-            <div class="thumb">
-                <a href="{url}">
-                    <img src="{thumb}" />
-                </a>
+        <div>
+            <div class="thumb normal"
+                onmouseover="toggleMouseOverState(this);"
+                onmouseout ="toggleMouseOverState(this);"
+                onclick="appendPreviewLayer(document.body, '{id}')"
+                >
+                <div class="dl_overlay"><!-- 余白消しのコメント
+                 --><button
+                        class="play_btn"
+                        style="display:inline-block;"
+                        data-reactid="41">
+                        <svg
+                            class="play_icon"
+                            role="img"
+                            viewBox="0 0 100 100"
+                            data-reactid="42">
+                            <path
+                                d="M95.092 42.059a8.878 8.878 0 0 1 0 15.882L12.848 99.063A8.878 8.878 0 0 1 0 91.122V8.878A8.879 8.879 0 0 1 12.848.937l82.244 41.122z"
+                                data-reactid="43">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <img class="thumb_image" src="{thumb_url}" />
             </div><!-- 余白消しのコメント
-         --><div class="br">
-                <ul class="tags">`
-    .format(data);
-
-    var html2 = "";
-    data["tags"].forEach(function(value){
-        html2 += `
-                    <li class="tag normal"
-                        onmouseover="toggleMouseOverState(this);"
-                        onmouseout ="toggleMouseOverState(this);"
-                        ><a href="http://www.nicovideo.jp/tag/{0}">{0}</a></li>`
-        .format(value);
-    });
-
-    var html3 = `
-                </ul><!-- 余白消しのコメント
+         --><div class="desc_area"><!-- 余白消しのコメント
              --><div class="desc">
                     {description}
                 </div>
+            </div><!-- 余白消しのコメント
+         --><div class="tags_area"><!-- 余白消しのコメント
+             --><ul class="tags">`
+    .format(data);
+
+    var html2 = "";
+    if (data["tags"] !== undefined) {
+        data["tags"].forEach(function(value){
+            html2 += `
+                        <li class="tag normal"
+                            onmouseover="toggleMouseOverState(this);"
+                            onmouseout ="toggleMouseOverState(this);"
+                            ><a href="http://www.nicovideo.jp/tag/{0}">{0}</a></li>`
+            .format(value);
+        });
+    }
+
+    var html3 = `
+                </ul>
             </div>
         </div>
     </div>`
@@ -117,12 +141,12 @@ function appendContent(elem, data) {
 /**
  * プレビューレイヤー追加.
  * @param {Element} parent レイヤー追加対象要素.
- * @param {string} content_id コンテンツID.
+ * @param {string} id ID.
  */
-function appendPreviewLayer(parent, content_id) {
+function appendPreviewLayer(parent, id) {
     console.log("appendPreviewLayer enter");
     console.log(parent);
-    console.log(content_id);
+    console.log(id);
 
     if (parent instanceof Element) {
         var elem = parent.querySelector("#movie_preview_layer");
@@ -130,13 +154,13 @@ function appendPreviewLayer(parent, content_id) {
             parent.removeChild(elem);
         }
         // レイヤー追加.
-        mContentsData.some(function(value){
-            if (value["id"] == content_id) {
+        mExContentsData.some(function(value){
+            if (value["id"] == id) {
                 var html = `
                 <div id="movie_preview_layer">
                     <!-- ニコニコ動画外部プレイヤー. -->
                     <iframe id="nicovideo_player"
-                            src="http://embed.nicovideo.jp/watch/{watch_id}"
+                            src="http://embed.nicovideo.jp/watch/{content_id}"
                             frameborder="0"
                             allowfullscreen
                             >

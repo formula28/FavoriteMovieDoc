@@ -43,11 +43,12 @@
     /* 存在チェック */
     if (Object.prototype.isEmpty == undefined) {
         Object.prototype.isEmpty = function(obj) {
+            console.log(obj);
             var ret = true;
             if (obj == null) {
                 ret = true;
-            } else if (Array.isArray(obj) || Object.isString(obj) || _.isArguments(obj)) {
-                // 引数が arguments か 配列 か 文字列 の時は length === 0 の真偽値を返す.
+            } else if (Array.isArray(obj) || Object.isString(obj)) {
+                // 引数が配列 か 文字列 の時は length === 0 の真偽値を返す.
                 ret = (obj.length === 0);
             } else {
                 // 引数がObjectなら key値の配列を作成して長さの真偽値を返す。 
