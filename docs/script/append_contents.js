@@ -158,8 +158,8 @@ function appendPreviewLayer(parent, id) {
             if (value["id"] == id) {
                 var html = `
                 <div id="movie_preview_layer">
-                    <!-- ニコニコ動画外部プレイヤー. -->
-                    <iframe id="nicovideo_player"
+                    <span><!-- 縦中央配置用. --></span><!-- ニコニコ動画外部プレイヤー.
+                 --><iframe id="nicovideo_player"
                             src="http://embed.nicovideo.jp/watch/{content_id}"
                             frameborder="0"
                             allowfullscreen
