@@ -13,14 +13,24 @@ body
     height: 220px;
 }
 
+    /* グループ start. */
+    .group_title
+    {
+        margin: 0 0 2px 0;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-left: solid 10px rgba(250, 0, 0, 0.9);
+        border-bottom: solid 2px rgba(250, 0, 0, 0.9);
+        font-size: 16pt;
+    }
+    /* グループ end. */
     /* タイトル start. */
     .title
     {
-        background-color: rgba(250, 0, 0, 0.6);
         position: relative;
         top:0;
         left:0;
         height: 30px;
+        background-color: rgba(250, 0, 0, 0.6);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -29,7 +39,7 @@ body
     {
         color: rgba(80,80,80,1);
         text-decoration: none;
-        font-size: 14pt;
+        font-size: 15pt;
     }
     .title a::before
     {

@@ -1,7 +1,7 @@
 /** コンテンツデータ. */
 var mContentsData;
-/** 検索結果反映済コンテンツデータ. */
-var mExContentsData = [];
+/** グループデータ. */
+var mGroupData;
 
 /**
  * コンテンツDOM追加.
@@ -11,53 +11,103 @@ function appendContents(elem) {
     console.log("appendContents enter");
 
     if (elem instanceof Element) {
+        getSimpleContentsDataAsync()
+        .then(getDetailContentsData)
+        .then(function(detailContentsData){
+            mContentsData = detailContentsData;
+            mGroupData = buildGroup(detailContentsData);
+            appendContentsInner(elem, mGroupData);
+        })
+        .catch(function(){
+            // onRejected.
+            appendContentsInner(elem, null);
+        });
+    }
+
+    console.log("appendContents leave");
+}
+
+function getSimpleContentsDataAsync() {
+    return new Promise(function(resolve, reject) {
+        console.log("getSimpleContentsDataAsync enter");
+
         var xhr = new XMLHttpRequest();
         xhr.onload = function(e) {
-            console.log("非同期通信によるコンテンツデータ取得成功.");
+            console.log("getSimpleContentsDataAsync 非同期通信によるコンテンツデータ取得成功.");
             console.log(this.response);
-            mContentsData = this.response;
-            appendContentsInner(elem, mContentsData);
+            resolve(this.response);
         }
         xhr.onerror = function(e) {
             console.log("readyState:" + xhr.readyState);
             console.log("response:" + xhr.response);
             console.log("status:" + xhr.status);
             console.log("statusText:" + xhr.statusText);
-            console.log("非同期通信によるコンテンツデータ取得失敗.");
-            appendContentsInner(elem, null);
+            console.log("getSimpleContentsDataAsync 非同期通信によるコンテンツデータ取得失敗.");
+            reject();
         }
         xhr.open("GET", "./data/movies.json", true);
         xhr.responseType = "json";
         xhr.send();
-    }
 
-    console.log("appendContents leave");
+        console.log("getSimpleContentsDataAsync leave");
+    });
+}
+function getDetailContentsData(simpleContentsData) {
+    return Promise.all(
+        simpleContentsData.map(function(value) {
+            return getVideoInfoJsonAsync(value);
+        })
+    );
+}
+function buildGroup(detailContentsData) {
+    console.log("buildGroup enter");
+
+    var groupData = [];
+    detailContentsData.forEach(function(value){
+        // コンテンツデータのシリーズに一致するグループを探す.
+        var groupIndex = groupData.findIndex(function(elem, index, array){
+            if (value["series"] === elem["group_name"]) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (groupIndex > -1) {
+            // グループが見つかった場合、コンテンツデータを追加.
+            groupData[groupIndex]["contents"].push(value);
+        } else {
+            // グループが見つからなかった場合、グループを作ってコンテンツデータを追加.
+            groupData.push({"group_id":groupData.length,"group_name":value["series"], "contents":[value]});
+        }
+    });
+    groupData = groupData.sort(function(a,b){
+        var ret = 0;
+        if (a["group_name"] < b["group_name"]) {
+            ret = -1;
+        } else if (a["group_name"] > b["group_name"]) {
+            ret = 1;
+        }
+        return ret;
+    });
+
+    console.log("buildGroup leave");
+    console.log(groupData);
+    return groupData;
 }
 
 /**
  * コンテンツDOM追加.
  * @param {Element} elem 対象DOM要素.
- * @param {Any[]} data コンテンツデータ.
+ * @param {Any[]} groupData グループデータ.
  */
-function appendContentsInner(elem, data) {
+function appendContentsInner(elem, groupData) {
     console.log("appendContentsInner enter");
 
     removeAllChildren(elem);
 
-    if (Array.isArray(data)) {
-        data.forEach(function(value) {
-            get_video_info_json(value, function(extend_data){
-                console.log("appendContentsInner get_video_info_json callback enter");
-                mExContentsData.push(extend_data);
-                appendContent(elem, extend_data);
-                console.log("appendContentsInner get_video_info_json callback leave");
-            });
-        })
-    } else if (typeof data == "object") {
-        get_video_info_json(data, function(extend_data){
-            console.log("appendContentsInner get_video_info_json callback enter");
-            appendContent(elem, extend_data);
-            console.log("appendContentsInner get_video_info_json callback leave");
+    if (Array.isArray(groupData)) {
+        groupData.forEach(function(value) {
+            appendGroup(elem, value);
         });
     } else {
         elem.insertAdjacentHTML("beforeend", "no data.");
@@ -66,6 +116,32 @@ function appendContentsInner(elem, data) {
     console.log("appendContentsInner leave");
 }
 
+/**
+ * グループDOM1件追加.
+ * @param {Element} elem 対象DOM要素.
+ * @param {Any} data グループデータ.
+ */
+function appendGroup(elem, data) {
+    console.log("appendGroup enter");
+
+    var html = `<!-- 余白消しのコメント
+ --><div class="group" id="group_{group_id}">
+        <div class="group_title">{group_name}</div>
+        <div class="group_contents">
+        </div>
+    </div>`
+    .format(data);
+    elem.insertAdjacentHTML("beforeend", html);
+
+    if (Array.isArray(data["contents"])) {
+        var groupNode = elem.querySelector("#group_{group_id} .group_contents".format(data));
+        data["contents"].forEach(function(value){
+            appendContent(groupNode, value);
+        });
+    }
+
+    console.log("appendGroup leave");
+}
 /**
  * コンテンツDOM1件追加.
  * @param {Element} elem 対象DOM要素.
@@ -150,7 +226,7 @@ function appendPreviewLayer(parent, id) {
             parent.removeChild(elem);
         }
         // レイヤー追加.
-        mExContentsData.some(function(value){
+        mContentsData.some(function(value){
             if (value["id"] == id) {
                 var html = `
                 <div id="movie_preview_layer">
@@ -184,7 +260,7 @@ function appendPreviewLayer(parent, id) {
         var layer_colse_btn = parent.querySelector("#layer_colse_btn");
         layer_colse_btn.addEventListener("click",
             function(e){
-                // レイヤー上の何もオブジェクトが表示されていない部分をクリックしたらレイヤー削除.
+                // ボタンをクリックしたらレイヤー削除.
                 if (e != null) {
                     console.log("onClick", e.target);
                     if (e.target.id == "layer_colse_btn") {

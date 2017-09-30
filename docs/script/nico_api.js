@@ -3,8 +3,8 @@
  * @param {string} content_id ニコニコ動画のコンテンツID(sm..., so... など)
  * @param {function} callback 通信成功/失敗後のコールバック.getthumbinfo API で取得できるxmlをDOMで引数に渡す.
  */
-function get_video_info_doc(content_id, callback) {
-    console.log("get_video_info_doc enter");
+function getVideoInfoDocAsync(content_id, callback) {
+    console.log("getVideoInfoDocAsync enter");
 
     var url = "http://ext.nicovideo.jp/api/getthumbinfo/" + content_id;
     var xhr = new XMLHttpRequest();
@@ -27,46 +27,50 @@ function get_video_info_doc(content_id, callback) {
     xhr.responseType = "document";
     xhr.send();
 
-    console.log("get_video_info_doc leave");
+    console.log("getVideoInfoDocAsync leave");
 }
 
 /**
  * 動画情報取得.
- * @param {Any[]} data コンテンツデータ.
- * @param {function} callback コールバック.引数に動画情報を追加したdataを渡す.
+ * @param {Any} data コンテンツデータ.
+ * @return {Promise} 非同期処理.
  */
-function get_video_info_json(data, callback) {
-    console.log("get_video_info_json enter");
+function getVideoInfoJsonAsync(data) {
+    return new Promise(function(resolve, reject) {
+        console.log("getVideoInfoJsonAsync enter");
 
-    if (!Object.isEmpty(data)) {
-        get_video_info_doc(data["content_id"],  function(dom){
-            console.log("get_video_info_json doc callback enter");
+        if (!Object.isEmpty(data)) {
+            getVideoInfoDocAsync(data["content_id"],  function(dom){
+                console.log("getVideoInfoJsonAsync doc callback enter");
 
-            if (!Object.isEmpty(dom)) {
-                // DOMから情報抽出.
-                var title = getElementText(dom.querySelector("title"));
-                var description = getElementText(dom.querySelector("description"));
-                var url = getElementText(dom.querySelector("watch_url"));
-                var thumb_url = getElementText(dom.querySelector("thumbnail_url"));
-                var tags = [];
-                console.log(dom.querySelectorAll("tags tag"));
-                dom.querySelectorAll("tags tag").forEach(function(value) {
-                    tags.push(getElementText(value));
-                });
+                if (!Object.isEmpty(dom)) {
+                    // DOMから情報抽出.
+                    var title = getElementText(dom.querySelector("title"));
+                    var description = getElementText(dom.querySelector("description"));
+                    var url = getElementText(dom.querySelector("watch_url"));
+                    var thumb_url = getElementText(dom.querySelector("thumbnail_url"));
+                    var tags = [];
+                    console.log(dom.querySelectorAll("tags tag"));
+                    dom.querySelectorAll("tags tag").forEach(function(value) {
+                        tags.push(getElementText(value));
+                    });
 
-                // コンテンツに取得した情報を追加.
-                data["title"] = title;
-                data["description"] = description;
-                data["url"] = url;
-                data["thumb_url"] = thumb_url;
-                data["tags"] =tags;
-                console.log(data);
-            }
-            callback(data);
+                    // コンテンツに取得した情報を追加.
+                    data["title"] = title;
+                    data["description"] = description;
+                    data["url"] = url;
+                    data["thumb_url"] = thumb_url;
+                    data["tags"] =tags;
+                    console.log(data);
+                }
+                resolve(data);
 
-            console.log("get_video_info_json doc callback leave");
-        });
-    }
+                console.log("getVideoInfoJsonAsync doc callback leave");
+            });
+        } else {
+            resolve(data);
+        }
 
-    console.log("get_video_info_json leave");
+        console.log("getVideoInfoJsonAsync leave");
+    });
 }

@@ -43,7 +43,6 @@
     /* 存在チェック */
     if (Object.prototype.isEmpty == undefined) {
         Object.prototype.isEmpty = function(obj) {
-            console.log(obj);
             var ret = true;
             if (obj == null) {
                 ret = true;

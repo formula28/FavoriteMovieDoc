@@ -2,37 +2,37 @@
     {
         "id":"mv0",
         "content_id":"sm19065505",
-        "series":"まっさらな夏の一日",
+        "series":"東方MMD",
         "title":"【MMD】Kiss me 愛してる　紫様 & 藍様【東方】"
     },
     {
         "id":"mv1",
         "content_id":"sm20760581",
-        "series":"進撃のちゃんみお",
+        "series":"進撃の巨人OPパロ",
         "title":"進撃のちゃんみお"
     },
     {
         "id":"mv2",
         "content_id":"sm20807274",
-        "series":"【東方MMD】私がリッチになった理由",
+        "series":"MMDドラマ",
         "title":"【東方MMD】私がリッチになった理由"
     },
     {
         "id":"mv3",
         "content_id":"sm9387114",
-        "series":"ストライクウィッチーズ スターライトストリーム",
+        "series":"ラジオ",
         "title":"ストライクウィッチーズ スターライトストリーム 第01回（改良版）"
     },
     {
         "id":"mv4",
         "content_id":"sm13842481",
-        "series":"501st JFW-OA",
+        "series":"ラジオ",
         "title":"501JFW-OA（暫定版）"
     },
     {
         "id":"mv5",
         "content_id":"sm29836496",
-        "series":"LNAF.OA",
+        "series":"ラジオ",
         "title":"LNAF-unofficial-OA 第1回"
     },
     {
@@ -56,7 +56,7 @@
     {
         "id":"mv9",
         "content_id":"sm21494172",
-        "series":"かんこれふぁんくらぶ",
+        "series":"音MAD",
         "title":"かんこれふぁんくらぶ【艦これ×いーあるふぁんくらぶ】"
     },
     {
@@ -92,19 +92,25 @@
     {
         "id":"mv15",
         "content_id":"sm2057168",
-        "series":"U.N.オーエンは彼女なのか？",
+        "series":"音MAD",
         "title":"M.C.ドナルドはダンスに夢中なのか？最終鬼畜道化師ドナルド・Ｍ"
     },
     {
         "id":"mv16",
         "content_id":"1436929526",
-        "series":"オーバーロード",
+        "series":"アニメ",
         "title":"オーバーロード　第1話「終わりと始まり」"
     },
     {
         "id":"mv17",
         "content_id":"1365661495",
-        "series":"ゆゆ式",
+        "series":"アニメ",
         "title":"ゆゆ式　第1話「高校生になりました」"
+    },
+    {
+        "id":"mv18",
+        "content_id":"1484126967",
+        "series":"アニメ",
+        "title":"けものフレンズ　1話「さばんなちほー」"
     }
 ]
