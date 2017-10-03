@@ -2,7 +2,7 @@
     {
         "id":"mv0",
         "content_id":"sm19065505",
-        "series":"東方MMD",
+        "series":"MMD",
         "title":"【MMD】Kiss me 愛してる　紫様 & 藍様【東方】"
     },
     {
@@ -14,7 +14,7 @@
     {
         "id":"mv2",
         "content_id":"sm20807274",
-        "series":"MMDドラマ",
+        "series":"MMD",
         "title":"【東方MMD】私がリッチになった理由"
     },
     {
@@ -62,7 +62,7 @@
     {
         "id":"mv10",
         "content_id":"sm21646157",
-        "series":"艦これMMD",
+        "series":"MMD",
         "title":"【艦これMMD】GLIDE"
     },
     {
@@ -466,5 +466,60 @@
         "content_id":"sm29163276",
         "series":"奇書",
         "title":"世界の奇書をゆっくり解説 第3回 「ヴォイニッチ手稿」"
+    },
+    {
+        "id":"mv78",
+        "content_id":"1373609870",
+        "series":"アニメ",
+        "title":"恋愛ラボ　#01「出会ってしまった二人」"
+    },
+    {
+        "id":"mv79",
+        "content_id":"sm31860625",
+        "series":"PUBG",
+        "title":"【PUBG】茜ちゃんは生き残りたい1"
+    },
+    {
+        "id":"mv80",
+        "content_id":"sm31979547",
+        "series":"PUBG",
+        "title":"【VOICEROID実況】キル武器だらけのPUBG"
+    },
+    {
+        "id":"mv81",
+        "content_id":"sm31339457",
+        "series":"PUBG",
+        "title":"【PUBG】フライパンのみでドン勝に挑戦してみた【VOICEROID実況】"
+    },
+    {
+        "id":"mv82",
+        "content_id":"sm29224366",
+        "series":"奇書",
+        "title":"世界の奇書をゆっくり解説 第4回 「野球と其害毒」"
+    },
+    {
+        "id":"mv83",
+        "content_id":"sm29942711",
+        "series":"奇書",
+        "title":"世界の奇書をゆっくり解説 第5回 「非現実の王国で」"
+    },
+    {
+        "id":"mv84",
+        "content_id":"sm30367179",
+        "series":"奇書",
+        "title":"世界の奇書をゆっくり解説 番外編 「天体の回転について」"
+    },
+    {
+        "id":"mv85",
+        "content_id":"sm31210055",
+        "series":"奇書",
+        "title":"世界の奇書をゆっくり解説 第6回 「フラーレンによる52Kでの超伝導」ほか"
+    },
+    {
+        "id":"mv86",
+        "content_id":"sm28650514",
+        "series":"世界の奇人・変人・偉人",
+        "title":"【ゆっくり解説】世界の奇人・変人・偉人解説【ジャスパーマスケリン】"
     }
+
 ]
