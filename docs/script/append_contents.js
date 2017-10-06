@@ -126,8 +126,14 @@ function appendGroup(elem, data) {
 
     var html = `<!-- 余白消しのコメント
  --><div class="group" id="group_{group_id}">
-        <div class="group_title">{group_name}</div>
-        <div class="group_contents">
+        <div class="group_title"
+            onclick="onClickGroupTitle(this);"
+            >
+            <img class="group_accordion_icon open"
+                src="./image/chevron_up_circle.svg"
+            />{group_name}
+        </div>
+        <div class="group_contents open">
         </div>
     </div>`
     .format(data);
@@ -282,4 +288,28 @@ function appendPreviewLayer(parent, id) {
 function toggleMouseOverState(elem) {
     toggleAttr(elem,'class','normal');
     toggleAttr(elem,'class','over');
+}
+
+/**
+ * 開閉状態切替.
+ * @param {Element} elem 対象要素.
+ */
+function toggleOpenCloseState(elem) {
+    toggleAttr(elem,'class','open');
+    toggleAttr(elem,'class','close');
+}
+
+/**
+ * グループタイトルクリック時処理.
+ * @param {Element} elem 対象要素.
+ */
+function onClickGroupTitle(elem) {
+    toggleOpenCloseState(elem.parentElement.querySelector(".group_contents"));
+    toggleOpenCloseState(elem.querySelector("img.group_accordion_icon"));
+    var icon = elem.querySelector("img.group_accordion_icon");
+    if (hasAttrValue(icon, 'class', 'close')) {
+        icon.src = "./image/chevron_down_circle.svg";
+    } else {
+        icon.src = "./image/chevron_up_circle.svg";
+    }
 }

@@ -21,6 +21,23 @@ body
         border-left: solid 10px rgba(250, 0, 0, 0.9);
         border-bottom: solid 2px rgba(250, 0, 0, 0.9);
         font-size: 16pt;
+        cursor: pointer;
+    }
+    .group_accordion_icon
+    {
+        margin: 0 2px 0 2px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .group_contents[class*="open"]
+    {
+        display: block;
+    }
+    .group_contents[class*="close"]
+    {
+        display: none;
     }
     /* グループ end. */
     /* タイトル start. */
