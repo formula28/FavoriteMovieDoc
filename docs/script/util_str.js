@@ -3,7 +3,8 @@
  */
 
     /**
-     * フォーマット関数
+     * フォーマット関数.
+     * @param {any} arg 置換するオブジェクトまたは配列
      */
     /* 存在チェック */
     if (String.prototype.format == undefined) {
@@ -14,7 +15,13 @@
             if (typeof arg == "object") {
                 // オブジェクトの場合
                 // ※(例) var str = "名前 : {name}, 年齢 : {age}".format( { "name":"山田", "age":128 } );
-                rep_fn = function(m, k) { return arg[k]; }
+                rep_fn = function(m, k) {
+                    if (Object.isEmpty(arg[k])) {
+                        return m;
+                    } else {
+                        return arg[k];
+                    }
+                }
             } else {
                 // 複数引数だった場合
                 // ※(例) var str = "{0} : {1} + {2} = {3}".format("足し算", 8, 0.5, 8+0.5);
@@ -43,9 +50,12 @@
     /* 存在チェック */
     if (Object.prototype.isEmpty == undefined) {
         Object.prototype.isEmpty = function(obj) {
-            var ret = true;
-            if (obj == null) {
+            var ret = false;
+            if (obj == null || obj == undefined) {
                 ret = true;
+            } else if (Number.isFinite(obj)) {
+                // 有限数の場合.
+                ret = false;
             } else if (Array.isArray(obj) || Object.isString(obj)) {
                 // 引数が配列 か 文字列 の時は length === 0 の真偽値を返す.
                 ret = (obj.length === 0);

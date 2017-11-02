@@ -62,10 +62,22 @@ body
     {
         content: "";
         display: inline-block;
-        margin: 4px 0 0 4px;
-        width: 17px;
-        height: 18px;
-        background: url("http://nicovideo.cdn.nimg.jp/uni/js/nicoheader/resources/icon_niconico.png") no-repeat 0 0;
+    }
+    .content.nicovideo .title a::before
+    {
+        margin: 0 0 0 3px;
+        width: 20px;
+        height: 20px;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAVdEVYdENyZWF0aW9uIFRpbWUAMTUuMTAuMc4FrYEAAADsSURBVDiN7ZM9TkJRFIQ/8EFjSGhMLBSirEEqO1sqCztpKG1lGzQswA0YSzoqNSYuwIJWVyAUGH4+Ck7iy+NhSGyZZHJzZuZO7i0OZKC+BCs53p1rXKW0bAzUVgTf1GpK74T+qB79WRLGpTpRB+qhehtzPydLQS0BF0AJMDgFboB74B1oAs9AF0iAg+goAyPUJ3WqLlKcqWN17i++1Z9MTvWj4NZP7Y7ifwv2JfuSXZEAPeAaWAInrPcB4BOYZ/Jncc6Ar7g/AkCtq6dqO/bhVT1Xa+HVgg/h92JuqMnG02L9W3nPjuKhepzSWAH1jfQrSF8ycgAAAABJRU5ErkJggg==") no-repeat 0 0;
+        vertical-align: middle;
+    }
+    .content.youtube .title a::before
+    {
+        margin: 0;
+        width: 24px;
+        height: 24px;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB/0lEQVR42u2VzUsbQRjGZ+IGTPGkJ4uNzWrSQjFpTxGK4gfSi3otPRQ8SJH+E/Y/iHpooaWl0EPxmLSoRIxft1xM/cI0MRu9iIJBVDRNNvP2SdgRPewmwvbQ0r28z/syM7993tmd4ewPP/w/oGbAUqvb0aQofZBdROThnDdBu6Cd0FyORc7KKSIhEkpFyEvoY2gNeuVMiMWn2T1xBcDiSmNd3XcMemYsQsaiN/T13GyMoaMXQgwGtaxeKa6rnucIX23uzgt/RpuuADba1PcAj1q80W0dlPWHjt3MKwlYQL3XbILD5eJMCEaFwm0AMQD6ZYsSCH4zr/U+H3N//MQOJkLsPBxmpOu1tGgdLXosHSQB9pq9EQDcOztX+YJOt7fpaGqS/4rFCAUrBz/h4IF0kEZQrRy0z8xe5XqxyHLxOMu9GWe6pplNy8BBu3SQAritmgOZ5zc3+WEoROcry1YO0nDglYAd1H3VAPlUih1NhOg0GuUkRLVNTgLwUALWUA+YTXA23+UNnUF2EokwKpVq/YoSADyRezCP0G/Dz3X9WcAeDEgHbwEes/lHewcHryVgCPWwzYBhAL5VipF7Lfy+0/kZ8qVN7fmSK5VGevb26cZ98EP1PHJw3m0c140o3YFWoB3GEG4c12TE8pGsQ1/I41oQrQYy2pZc8x+60f5awG8dVq0o+cA74wAAAABJRU5ErkJggg==") no-repeat 0 0;
+        vertical-align: middle;
     }
     /* タイトル end. */
 
@@ -110,18 +122,26 @@ body
     }
 
     .play_btn {
-        padding-top: 12px;
         border: none;
-        width: 52px;
-        height: 52px;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
-        background: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzMgNzYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjMuNjV2MzcuODlhNi4zNiA2LjM2IDAgMCAwIDYuMzkgNi4zMmg3LjUzbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMi02LjYxaDIyLjExbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMy02LjYxaDguMzZhNi4zNSA2LjM1IDAgMCAwIDYuMzktNi4zMlYyMy42NWE2LjM1IDYuMzUgMCAwIDAtNi4zOS02LjMySDQxLjk5TDU2LjA1IDMuNDQgNTIuNTYtLjAzIDM2LjIzIDE2LjExIDE5LjkyLjA2bC0zLjUgMy40NSAxNCAxMy44MmgtMjRBNi4zNiA2LjM2IDAgMCAwIDAgMjMuNjV6IiBzdHlsZT0iZmlsbDpyZ2JhKDAsMCwwLC44KTtzdHJva2U6cmdiYSg2Niw2Niw2NiwuOCk7Ii8+PC9zdmc+) no-repeat center;
         transition: all .1s ease;
         -webkit-transition: all .1s ease;
         cursor: pointer;
         outline: none;
+        vertical-align:middle;
     }
-    .play_icon {
+    .content.nicovideo .play_btn {
+        padding-top: 12px;
+        width: 52px;
+        height: 52px;
+        background: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzMgNzYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjMuNjV2MzcuODlhNi4zNiA2LjM2IDAgMCAwIDYuMzkgNi4zMmg3LjUzbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMi02LjYxaDIyLjExbDQuMTIgNi42MWExLjUxIDEuNTEgMCAwIDAgMS4zNC43MiAxLjUzIDEuNTMgMCAwIDAgMS4zMS0uNzJsNC4xMy02LjYxaDguMzZhNi4zNSA2LjM1IDAgMCAwIDYuMzktNi4zMlYyMy42NWE2LjM1IDYuMzUgMCAwIDAtNi4zOS02LjMySDQxLjk5TDU2LjA1IDMuNDQgNTIuNTYtLjAzIDM2LjIzIDE2LjExIDE5LjkyLjA2bC0zLjUgMy40NSAxNCAxMy44MmgtMjRBNi4zNiA2LjM2IDAgMCAwIDAgMjMuNjV6IiBzdHlsZT0iZmlsbDpyZ2JhKDAsMCwwLC44KTtzdHJva2U6cmdiYSg2Niw2Niw2NiwuOCk7Ii8+PC9zdmc+) no-repeat center;
+    }
+    .content.youtube .play_btn {
+        width: 68px;
+        height: 48px;
+        background: rgba(0,0,0,0);
+    }
+    .content.nicovideo .play_icon {
         fill: rgba(255,255,255,.8);
         width: 14px;
     }
@@ -226,7 +246,7 @@ body
     vertical-align: middle;
     background-color: rgba(250, 0, 0, 0.8);
 }
-#nicovideo_player {
+#player_frame {
     width: 720px;
     height: 405px;
     vertical-align: middle;

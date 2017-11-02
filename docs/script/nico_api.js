@@ -3,8 +3,8 @@
  * @param {string} content_id ニコニコ動画のコンテンツID(sm..., so... など)
  * @param {function} callback 通信成功/失敗後のコールバック.getthumbinfo API で取得できるxmlをDOMで引数に渡す.
  */
-function getVideoInfoDocAsync(content_id, callback) {
-    console.log("getVideoInfoDocAsync enter");
+function getNicoVideoInfoDocAsync(content_id, callback) {
+    console.log("getNicoVideoInfoDocAsync enter");
 
     var url = "http://ext.nicovideo.jp/api/getthumbinfo/" + content_id;
     var xhr = new XMLHttpRequest();
@@ -27,7 +27,7 @@ function getVideoInfoDocAsync(content_id, callback) {
     xhr.responseType = "document";
     xhr.send();
 
-    console.log("getVideoInfoDocAsync leave");
+    console.log("getNicoVideoInfoDocAsync leave");
 }
 
 /**
@@ -35,13 +35,13 @@ function getVideoInfoDocAsync(content_id, callback) {
  * @param {Any} data コンテンツデータ.
  * @return {Promise} 非同期処理.
  */
-function getVideoInfoJsonAsync(data) {
+function getNicoVideoInfoJsonAsync(data) {
     return new Promise(function(resolve, reject) {
-        console.log("getVideoInfoJsonAsync enter");
+        console.log("getNicoVideoInfoJsonAsync enter");
 
         if (!Object.isEmpty(data)) {
-            getVideoInfoDocAsync(data["content_id"],  function(dom){
-                console.log("getVideoInfoJsonAsync doc callback enter");
+            getNicoVideoInfoDocAsync(data["content_id"],  function(dom){
+                console.log("getNicoVideoInfoJsonAsync doc callback enter");
 
                 if (!Object.isEmpty(dom)) {
                     // DOMから情報抽出.
@@ -65,12 +65,12 @@ function getVideoInfoJsonAsync(data) {
                 }
                 resolve(data);
 
-                console.log("getVideoInfoJsonAsync doc callback leave");
+                console.log("getNicoVideoInfoJsonAsync doc callback leave");
             });
         } else {
             resolve(data);
         }
 
-        console.log("getVideoInfoJsonAsync leave");
+        console.log("getNicoVideoInfoJsonAsync leave");
     });
 }
