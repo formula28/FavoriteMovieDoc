@@ -1,6 +1,68 @@
-/** コンテンツデータ. */
+/** 動画サイト名. */
+const SITE_NAME = {
+    NICOVIDEO : "nicovideo",
+    YOUTUBE : "youtube"
+}
+/** 動画サイト情報. */
+const SITE_DATA = {
+    NICOVIDEO : {
+        EMBED_PLAYER_URL : "http://embed.nicovideo.jp/watch/",
+        TAG_URL : "http://www.nicovideo.jp/tag/",
+        PLAY_ICON_SVG : `
+        <svg
+            class="play_icon"
+            role="img"
+            viewBox="0 0 100 100">
+            <path
+                d="M95.092 42.059a8.878 8.878 0 0 1 0 15.882L12.848 99.063A8.878 8.878 0 0 1 0 91.122V8.878A8.879 8.879 0 0 1 12.848.937l82.244 41.122z"
+                >
+            </path>
+        </svg>`
+    },
+    YOUTUBE : {
+        EMBED_PLAYER_URL : "https://www.youtube.com/embed/",
+        TAG_URL : "https://www.youtube.com/results?search_query=",
+        PLAY_ICON_SVG : `
+        <svg
+            class="play_icon"
+            role="img"
+            viewBox="0 0 68 48">
+            <path
+                d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                fill="#212121"
+                fill-opacity="0.8"
+                >
+            </path>
+            <path
+                d="M 45,24 27,14 27,34"
+                fill="#fff"
+                >
+            </path>
+        </svg>`
+    }
+}
+
+/** コンテンツデータ.
+    {
+        "id":<コンテンツID>, ※フォーマット：mv<number>
+        "site_name":<動画サイト名>,
+        "content_id":<動画サイトのもつ動画コンテンツのID>,
+        "series":<シリーズ名>, ※シリーズ名に従ってグルーピングされて表示される.
+        "title":<動画タイトル>,
+        "description":<説明文>,
+        "url":<動画URL>,
+        "thumb_url":<動画サムネイルURL>,
+        "tags":[<タグ>],
+    },
+ */
 var mContentsData;
-/** グループデータ. */
+/** グループデータ.
+    {
+        "group_id":<グループID>, 
+        "group_name":<グループ名>, ※コンテンツデータのシリーズ名を設定する.
+        "contents":[<コンテンツデータ>],
+    }
+ */
 var mGroupData;
 
 /**
@@ -59,6 +121,43 @@ function getDetailContentsData(simpleContentsData) {
         })
     );
 }
+
+/**
+ * 動画情報取得.
+ * @param {Any} data コンテンツデータ.
+ * @return {Promise} 非同期処理.
+ */
+function getVideoInfoJsonAsync(data) {
+    console.log("getVideoInfoJsonAsync enter.");
+
+    var ret;
+
+    if (data, data["site_name"]) {
+        switch (data["site_name"]) {
+        case SITE_NAME.NICOVIDEO:
+            ret = getNicoVideoInfoJsonAsync(data);
+            break;
+        case SITE_NAME.YOUTUBE:
+            ret = getYoutubeVideoInfoJsonAsync(data);
+            break;
+        default:
+            ret = new Promise(function(resolve, reject) {
+                console.log("getVideoInfoJsonAsync unknown site nop.");
+                resolve(data);
+            });
+            break;
+        }
+    } else {
+        ret = new Promise(function(resolve, reject) {
+            console.log("getVideoInfoJsonAsync unknown site nop.");
+            resolve(data);
+        });
+    }
+
+    console.log("getVideoInfoJsonAsync leave.");
+    return ret;
+}
+
 function buildGroup(detailContentsData) {
     console.log("buildGroup enter");
 
@@ -156,8 +255,18 @@ function appendGroup(elem, data) {
 function appendContent(elem, data) {
     console.log("appendContent enter");
 
+    var site_data;
+    switch (data["site_name"]) {
+    case SITE_NAME.NICOVIDEO:
+        site_data = SITE_DATA.NICOVIDEO;
+        break;
+    case SITE_NAME.YOUTUBE:
+        site_data = SITE_DATA.YOUTUBE;
+        break;
+    }
+
     var html1 = `<!-- 余白消しのコメント
- --><div class="content" id="{id}">
+ --><div class="content {site_name}" id="{id}">
         <div class="title" title="{title}">
             <a href="{url}">
                 {title}
@@ -172,14 +281,7 @@ function appendContent(elem, data) {
                  --><button
                         class="play_btn"
                         style="display:inline-block;">
-                        <svg
-                            class="play_icon"
-                            role="img"
-                            viewBox="0 0 100 100">
-                            <path
-                                d="M95.092 42.059a8.878 8.878 0 0 1 0 15.882L12.848 99.063A8.878 8.878 0 0 1 0 91.122V8.878A8.879 8.879 0 0 1 12.848.937l82.244 41.122z">
-                            </path>
-                        </svg>
+                        {PLAY_ICON_SVG}
                     </button>
                 </div>
                 <img class="thumb_image" src="{thumb_url}" />
@@ -191,16 +293,18 @@ function appendContent(elem, data) {
             </div><!-- 余白消しのコメント
          --><div class="tags_area"><!-- 余白消しのコメント
              --><ul class="tags">`
+    .format(site_data)
     .format(data);
 
     var html2 = "";
-    if (data["tags"] !== undefined) {
+    if (Array.isArray(data["tags"])) {
         data["tags"].forEach(function(value){
             html2 += `
                         <li class="tag normal"
                             onmouseover="toggleMouseOverState(this);"
                             onmouseout ="toggleMouseOverState(this);"
-                            ><a href="http://www.nicovideo.jp/tag/{0}">{0}</a></li>`
+                            ><a href="{TAG_URL}{0}">{0}</a></li>`
+            .format(site_data)
             .format(value);
         });
     }
@@ -234,11 +338,20 @@ function appendPreviewLayer(parent, id) {
         // レイヤー追加.
         mContentsData.some(function(value){
             if (value["id"] == id) {
+                var site_data;
+                switch (value["site_name"]) {
+                case SITE_NAME.NICOVIDEO:
+                    site_data = SITE_DATA.NICOVIDEO;
+                    break;
+                case SITE_NAME.YOUTUBE:
+                    site_data = SITE_DATA.YOUTUBE;
+                    break;
+                }
                 var html = `
                 <div id="movie_preview_layer">
-                    <span><!-- 縦中央配置用. --></span><!-- ニコニコ動画外部プレイヤー.
-                 --><iframe id="nicovideo_player"
-                            src="http://embed.nicovideo.jp/watch/{content_id}"
+                    <span><!-- 縦中央配置用. --></span><!-- 外部プレイヤー.
+                 --><iframe id="player_frame"
+                            src="{EMBED_PLAYER_URL}{content_id}"
                             frameborder="0"
                             allowfullscreen
                             >
@@ -257,7 +370,9 @@ function appendPreviewLayer(parent, id) {
                             </path>
                         </svg>
                     </button>
-                </div>`.format(value);
+                </div>`
+                .format(site_data)
+                .format(value);
                 parent.insertAdjacentHTML("beforeend", html);
                 return true;
             }
