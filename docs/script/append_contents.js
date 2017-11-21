@@ -228,11 +228,11 @@ function appendGroup(elem, data) {
         <div class="group_title"
             onclick="onClickGroupTitle(this);"
             >
-            <img class="group_accordion_icon open"
-                src="./image/chevron_up_circle.svg"
+            <img class="group_accordion_icon close"
+                src="./image/chevron_down_circle.svg"
             />{group_name}
         </div>
-        <div class="group_contents open">
+        <div class="group_contents close">
         </div>
     </div>`
     .format(data);
